@@ -33,4 +33,7 @@ urlpatterns = [
 
     #seats
     path('api/seats/', include('apps.seats.urls')),
+
+    #tickets
+    path('api/tickets/', include('apps.tickets.urls')),
 ]
