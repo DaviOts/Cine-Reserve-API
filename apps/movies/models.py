@@ -5,7 +5,7 @@ class Movie(models.Model):
     description = models.TextField()
     duration_minutes = models.PositiveIntegerField()
     genre = models.CharField(max_length=100)
-    poster_url = models.URLField(blank=True)
+    poster_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     #use for indexing in BD to improve performance(CREATE INDEX)
