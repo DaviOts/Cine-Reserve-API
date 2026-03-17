@@ -145,3 +145,10 @@ SIMPLE_JWT = {
 }
 
 REDIS_URL = 'redis://localhost:6380/0'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": REDIS_URL,
+    }
+}
