@@ -3,6 +3,11 @@ from django.utils import timezone
 from django.db import transaction
 from apps.movies.models import Session
 from apps.seats.models import Seat, SeatStatus
+from apps.reservations.services import ReservationService
+from django.conf import settings
+import redis
+
+redis_client = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
 
 
 class TicketService:
@@ -10,6 +15,14 @@ class TicketService:
     def create_ticket(user, session_id, seat_id):
         #deal with race condition
         with transaction.atomic():
+            #add redis lock
+            lock_key = f"seat_lock:{seat_id}"
+
+            lock_owner = redis_client.get(lock_key)
+
+            if lock_owner and lock_owner != str(user.id):
+                raise ValueError("Seat is not available")
+                
             try:
                 session = Session.objects.get(id=session_id)
             except Session.DoesNotExist:
@@ -38,5 +51,8 @@ class TicketService:
                 session=session,
                 seat=seat,
             )
+            
+            #realease if and only if transaction is committed in my bd
+            transaction.on_commit(lambda: ReservationService.release_seat_lock(seat_id, user.id))
             
             return ticket
