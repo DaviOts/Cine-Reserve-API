@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.movies',
     'apps.seats',
     'apps.tickets',
+    'apps.reservations',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,5 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+REDIS_URL = 'redis://localhost:6380/0'

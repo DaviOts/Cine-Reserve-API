@@ -1,11 +1,7 @@
-from rest_framework.routers import DefaultRouter
-from django.urls import path, include
+from django.urls import path
+
 from .views import SeatViewSet
 
-router = DefaultRouter()
-
-router.register(r'seats', SeatViewSet, basename='seat')
-
 urlpatterns = [
-    path('', include(router.urls)),
+    path('sessions/<int:session_id>/seats/', SeatViewSet.as_view(), name='seat-list'),
 ]
