@@ -30,8 +30,7 @@ def auth_client_b(api_client, user_b):
 #users
 @pytest.fixture
 def user(db):
-    return baker.make(
-        User,
+    return User.objects.create_user(
         username='daviots',
         email='davi@test.com',
         password='strongpass123',
