@@ -47,7 +47,7 @@ class MyTicketsListView(generics.ListAPIView):
     
     #this filters tokens for the current user
     def get_queryset(self):
-        return Ticket.objects.filter(user=self.request.user)
+        return Ticket.objects.filter(user=self.request.user).order_by('-purchased_at')
     
     
     
