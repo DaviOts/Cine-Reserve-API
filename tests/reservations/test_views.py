@@ -1,7 +1,6 @@
+from unittest.mock import patch
+
 import pytest
-from unittest.mock import patch, MagicMock
-from apps.reservations.services import ReservationService
-from apps.seats.models import SeatStatus
 from django.urls import reverse
 
 
@@ -30,6 +29,7 @@ class TestReserveSeatView:
         response = auth_client.post(url)
         assert response.status_code == 409
         assert 'error' in response.data
+        assert response.data['ttl'] == 300
  
     def test_reserve_purchased_seat_returns_400(self, auth_client, session, purchased_seat):
         url = reverse('reserve-seat', args=[session.id, purchased_seat.id])

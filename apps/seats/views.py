@@ -1,10 +1,10 @@
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from .models import Seat, SeatStatus
-from .serializers import SeatSerializer
-from apps.reservations.services import ReservationService
 import redis
 from django.conf import settings
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+
+from .models import Seat, SeatStatus
+from .serializers import SeatSerializer
 
 redis_client = redis.Redis.from_url(settings.REDIS_URL)
 

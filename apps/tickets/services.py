@@ -1,11 +1,13 @@
-from .models import Ticket
-from django.utils import timezone
-from django.db import transaction
-from apps.movies.models import Session
-from apps.seats.models import Seat, SeatStatus
-from apps.reservations.services import ReservationService
-from django.conf import settings
 import redis
+from django.conf import settings
+from django.db import transaction
+from django.utils import timezone
+
+from apps.movies.models import Session
+from apps.reservations.services import ReservationService
+from apps.seats.models import Seat, SeatStatus
+
+from .models import Ticket
 
 redis_client = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
 

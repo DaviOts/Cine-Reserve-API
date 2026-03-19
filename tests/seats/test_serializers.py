@@ -1,7 +1,9 @@
+
 import pytest
-from unittest.mock import patch, MagicMock
+
 from apps.seats.models import Seat, SeatStatus
 from apps.seats.serializers import SeatSerializer
+
 
 @pytest.mark.django_db
 class TestSeatSerializer:

@@ -1,10 +1,12 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
 from django.shortcuts import get_object_or_404
-from apps.seats.models import Seat, SeatStatus
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from apps.reservations.services import ReservationService
+from apps.seats.models import Seat, SeatStatus
+
 
 class ReserveSeatView(APIView):
     permission_classes = [IsAuthenticated]
@@ -20,7 +22,7 @@ class ReserveSeatView(APIView):
         if not acquiered:
             ttl = ReservationService.get_lock_ttl(seat_id)
 
-            return Response({"error": "Seat is being processed"}, status=status.HTTP_409_CONFLICT)
+            return Response({"error": "Seat is being processed", "ttl": ttl}, status=status.HTTP_409_CONFLICT)
 
         return Response({"message": "Seat reserved"}, status=status.HTTP_200_OK)
 

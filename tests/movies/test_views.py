@@ -1,6 +1,8 @@
 import pytest
-from apps.movies.models import Movie, Session
 from django.urls import reverse
+
+from apps.movies.models import Movie
+
 
 @pytest.mark.django_db
 class TestMovieViewSet:

@@ -1,6 +1,7 @@
 import pytest
-from apps.users.models import User
+
 from apps.users.serializers import RegisterSerializer
+
 
 @pytest.mark.django_db
 class TestRegisterSerializer:
