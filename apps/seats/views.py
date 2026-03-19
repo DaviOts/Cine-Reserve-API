@@ -18,7 +18,7 @@ class SeatViewSet(generics.ListAPIView):
         session_id = self.kwargs.get('session_id')
 
         #get in my bd all seats from this session
-        seats = Seat.objects.filter(session_id=session_id)
+        seats = Seat.objects.filter(session_id=session_id).order_by('row', 'number')
 
         for seat in seats:
             if seat.status == SeatStatus.AVAILABLE:
