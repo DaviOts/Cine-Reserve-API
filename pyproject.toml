@@ -36,3 +36,10 @@ dev = [
     "faker (>=40.11.0,<41.0.0)",
     "model-bakery (>=1.23.3,<2.0.0)"
 ]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
