@@ -5,7 +5,7 @@ description = "CineReserve API"
 authors = [
     {name = "Davi"}
 ]
-requires-python = "^3.12"
+requires-python = ">=3.12"
 dependencies = [
     "django (>=6.0.3,<7.0.0)",
     "djangorestframework (>=3.16.1,<4.0.0)",
@@ -16,6 +16,9 @@ dependencies = [
     "django-environ (>=0.13.0,<0.14.0)",
     "python-dotenv (>=1.2.2,<2.0.0)"
 ]
+
+[tool.poetry]
+package-mode = false
 
 
 [build-system]
@@ -34,7 +37,8 @@ dev = [
     "pytest-django (>=4.12.0,<5.0.0)",
     "factory-boy (>=3.3.3,<4.0.0)",
     "faker (>=40.11.0,<41.0.0)",
-    "model-bakery (>=1.23.3,<2.0.0)"
+    "model-bakery (>=1.23.3,<2.0.0)",
+    "ruff (>=0.15.6,<0.16.0)"
 ]
 
 [tool.ruff]
