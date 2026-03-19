@@ -21,9 +21,9 @@ def auth_client(api_client, user):
  
  
 @pytest.fixture
-def auth_client_b(api_client, user_b):
+def auth_client_b(api_client, rival_user):
     client = APIClient()
-    client.force_authenticate(user=user_b)
+    client.force_authenticate(user=rival_user)
     return client
 
 
