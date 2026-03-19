@@ -1,12 +1,13 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from .services import TicketService
-from .serializers import TicketSerializer
 from drf_spectacular.utils import extend_schema, inline_serializer
-from rest_framework import serializers, generics
+from rest_framework import generics, serializers, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .models import Ticket
+from .serializers import TicketSerializer
+from .services import TicketService
+
 
 class TicketViewSet(APIView):
     permission_classes = [IsAuthenticated]

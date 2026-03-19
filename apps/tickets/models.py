@@ -1,8 +1,11 @@
-from django.db import models
-from apps.users.models import User
-from apps.seats.models import Seat
-from apps.movies.models import Session
 import uuid
+
+from django.db import models
+
+from apps.movies.models import Session
+from apps.seats.models import Seat
+from apps.users.models import User
+
 
 class Ticket(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

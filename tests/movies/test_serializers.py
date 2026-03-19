@@ -1,6 +1,7 @@
 import pytest
-from apps.movies.models import Movie, Session
+
 from apps.movies.serializers import MovieSerializer, SessionSerializer
+
 
 @pytest.mark.django_db
 class TestMovieSerializer:

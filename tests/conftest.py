@@ -1,11 +1,13 @@
+from datetime import timedelta
+
 import pytest
 from django.utils import timezone
-from datetime import timedelta
+from model_bakery import baker
 from rest_framework.test import APIClient
-from apps.users.models import User
+
 from apps.movies.models import Movie, Session
 from apps.seats.models import Seat, SeatStatus
-from model_bakery import baker
+from apps.users.models import User
 
 
 #client

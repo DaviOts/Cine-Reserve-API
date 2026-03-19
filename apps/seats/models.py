@@ -1,5 +1,7 @@
 from django.db import models
+
 from apps.movies.models import Session
+
 
 #this represents the status of a seat
 class SeatStatus(models.TextChoices):

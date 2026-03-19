@@ -1,7 +1,7 @@
 import pytest
-from apps.users.models import User
 from django.urls import reverse
 
+from apps.users.models import User
 
 
 @pytest.mark.django_db

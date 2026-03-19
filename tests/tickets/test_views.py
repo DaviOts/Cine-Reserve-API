@@ -1,13 +1,11 @@
-import pytest
 from unittest.mock import patch
-from django.utils import timezone
-from datetime import timedelta
-from apps.tickets.models import Ticket
-from apps.seats.models import SeatStatus
-from apps.seats.models import Seat
-from apps.movies.models import Session
-from apps.tickets.services import TicketService
+
+import pytest
 from django.urls import reverse
+
+from apps.seats.models import Seat
+from apps.tickets.models import Ticket
+from apps.tickets.services import TicketService
 
 
 @pytest.mark.django_db
