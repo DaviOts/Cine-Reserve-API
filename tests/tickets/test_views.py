@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 from django.urls import reverse
 
-from apps.seats.models import Seat
+from apps.seats.models import Seat, SeatStatus
 from apps.tickets.models import Ticket
 from apps.tickets.services import TicketService
 
@@ -73,7 +73,7 @@ class TestMyTicketsView:
         mock_redis.get.return_value = str(user.id)
         TicketService.create_ticket(user, session.id, seat.id)
  
-        seat_b = Seat.objects.create(session=session, row='C', number=5)
+        seat_b = Seat.objects.filter(session=session, status=SeatStatus.AVAILABLE).first()
         mock_redis.get.return_value = str(rival_user.id)
         TicketService.create_ticket(rival_user, session.id, seat_b.id)
  

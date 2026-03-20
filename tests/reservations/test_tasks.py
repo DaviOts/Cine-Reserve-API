@@ -11,9 +11,9 @@ class TestReleaseExpiredSeatLocks:
 
     @patch('apps.reservations.tasks.redis_client')
     def test_releases_seat_when_lock_expired(self, mock_redis, session):
-        seat = Seat.objects.create(
-            session=session, row='A', number=1, status=SeatStatus.RESERVED
-        )
+        seat = Seat.objects.filter(session=session).first()
+        seat.status = SeatStatus.RESERVED
+        seat.save()
         mock_redis.exists.return_value = False
 
         result = release_expired_seat_locks()
@@ -24,9 +24,9 @@ class TestReleaseExpiredSeatLocks:
 
     @patch('apps.reservations.tasks.redis_client')
     def test_keeps_seat_reserved_when_lock_active(self, mock_redis, session):
-        seat = Seat.objects.create(
-            session=session, row='A', number=2, status=SeatStatus.RESERVED
-        )
+        seat = Seat.objects.filter(session=session).first()
+        seat.status = SeatStatus.RESERVED
+        seat.save()
         mock_redis.exists.return_value = True
 
         release_expired_seat_locks()
@@ -45,10 +45,10 @@ class TestReleaseExpiredSeatLocks:
 
     @patch('apps.reservations.tasks.redis_client')
     def test_returns_correct_count(self, mock_redis, session):
-        for i in range(3):
-            Seat.objects.create(
-                session=session, row='B', number=i + 1, status=SeatStatus.RESERVED
-            )
+        seats = Seat.objects.filter(session=session)[:3]
+        for seat in seats:
+            seat.status = SeatStatus.RESERVED
+            seat.save()
         mock_redis.exists.return_value = False
 
         result = release_expired_seat_locks()
