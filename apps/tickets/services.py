@@ -1,3 +1,5 @@
+import hashlib
+
 import redis
 from django.conf import settings
 from django.db import transaction
@@ -53,6 +55,8 @@ class TicketService:
                 user=user,
                 session=session,
                 seat=seat,
+                #OBS: in production its necesary use uuid or timestamp too
+                qr_code=hashlib.sha256(f"{user.id}:{session.id}:{seat.id}".encode()).hexdigest()
             )
                    
 
