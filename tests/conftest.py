@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 import pytest
+from django.core.cache import cache
 from django.utils import timezone
 from model_bakery import baker
 from rest_framework.test import APIClient
@@ -113,3 +114,9 @@ def seat_in_past_session(db, past_session):
         number=1,
         status=SeatStatus.AVAILABLE,
     )
+
+@pytest.fixture(autouse=True)
+def reset_cache():
+    cache.clear()
+    yield
+    cache.clear()

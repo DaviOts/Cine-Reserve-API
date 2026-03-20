@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -11,6 +13,7 @@ from apps.seats.models import Seat, SeatStatus
 class ReserveSeatView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @method_decorator(ratelimit(key='ip', rate='10/m', method='POST', block=True))
     def post(self, request, session_id, seat_id):
         seat = get_object_or_404(Seat, id=seat_id)
 
@@ -26,6 +29,7 @@ class ReserveSeatView(APIView):
 
         return Response({"message": "Seat reserved"}, status=status.HTTP_200_OK)
 
+    @method_decorator(ratelimit(key='ip', rate='10/m', method='DELETE', block=True))
     def delete(self, request, session_id, seat_id):
         realesed = ReservationService.release_seat_lock(seat_id, request.user.id)
 

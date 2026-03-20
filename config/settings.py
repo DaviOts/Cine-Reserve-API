@@ -148,9 +148,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
 
-    'DEFAULT_SCHEMA_CLASS': 
     #swagger
-    'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+    #ratelimit
+    'EXCEPTION_HANDLER': 'apps.utils.exceptions.custom_exception_handler',
 }
 
 SIMPLE_JWT = {
@@ -166,3 +168,5 @@ CACHES = {
         "LOCATION": REDIS_URL,
     }
 }
+
+RATELIMIT_FAIL_OPEN = False
