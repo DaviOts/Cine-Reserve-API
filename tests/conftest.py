@@ -84,35 +84,28 @@ def past_session(db, movie):
 #seats
 @pytest.fixture
 def seat(db, session):
-    return baker.make(
-        Seat,
+    return Seat.objects.filter(
         session=session,
-        row='A',
-        number=1,
         status=SeatStatus.AVAILABLE,
-    )
+    ).first()
  
  
 @pytest.fixture
 def purchased_seat(db, session):
-    return baker.make(
-        Seat,
+    s = Seat.objects.filter(
         session=session,
-        row='B',
-        number=1,
-        status=SeatStatus.PURCHASED,
-    )
+        )[1]
+    s.status = SeatStatus.PURCHASED
+    s.save()
+    return s
  
  
 @pytest.fixture
 def seat_in_past_session(db, past_session):
-    return baker.make(
-        Seat,
+    return Seat.objects.filter(
         session=past_session,
-        row='A',
-        number=1,
         status=SeatStatus.AVAILABLE,
-    )
+    ).first()
 
 #cache(clears before and after each test)
 @pytest.fixture(autouse=True)
