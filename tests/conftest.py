@@ -115,6 +115,7 @@ def seat_in_past_session(db, past_session):
         status=SeatStatus.AVAILABLE,
     )
 
+#cache(clears before and after each test)
 @pytest.fixture(autouse=True)
 def reset_cache():
     cache.clear()
