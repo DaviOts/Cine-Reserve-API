@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Seat, SeatStatus
 from .serializers import SeatSerializer
 
-redis_client = redis.Redis.from_url(settings.REDIS_URL)
+redis_client = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
 
 @method_decorator(ratelimit(key='ip', rate='30/m', method='GET', block=True), name='get')
 class SeatViewSet(generics.ListAPIView):
@@ -26,7 +26,7 @@ class SeatViewSet(generics.ListAPIView):
         for seat in seats:
             if seat.status == SeatStatus.AVAILABLE:
                 lock_key = f"seat_lock:{seat.id}"
-
+                #transient state, not persisted, only for concurrency control
                 if redis_client.exists(lock_key):
                     seat.status = SeatStatus.RESERVED
             

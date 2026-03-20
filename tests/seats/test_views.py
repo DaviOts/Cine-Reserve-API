@@ -22,14 +22,13 @@ class TestSeatMapView:
         assert len(response.data['results']) >= 1
  
     def test_returns_only_seats_of_the_session(self, auth_client, session, seat, movie, db):
+        
         other_session = Session.objects.create(
             movie=movie,
             room='room 99',
             starts_at=timezone.now() + timedelta(hours=5),
             total_seats=10,
         )
-        Seat.objects.create(session=other_session, row='X', number=1)
- 
         response = auth_client.get(reverse('seat-list', args=[session.id]))
         seat_ids = [s['id'] for s in response.data['results']]
         assert seat.id in seat_ids

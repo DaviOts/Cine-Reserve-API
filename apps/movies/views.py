@@ -17,7 +17,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 
     @method_decorator(ratelimit(key='ip', rate='60/m', method='GET', block=True))
     def list(self, request, *args, **kwargs):
-        cache_key = f"movies:list:{request.user.id}"
+        cache_key = f"movies:list:{request.get_full_path()}"
         cached = cache.get(cache_key)
         if cached:
             return Response(cached)
