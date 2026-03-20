@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 import pytest
+from django.core.cache import cache
 from django.utils import timezone
 from model_bakery import baker
 from rest_framework.test import APIClient
@@ -8,7 +9,6 @@ from rest_framework.test import APIClient
 from apps.movies.models import Movie, Session
 from apps.seats.models import Seat, SeatStatus
 from apps.users.models import User
-from django.core.cache import cache
 
 
 #client
