@@ -170,3 +170,17 @@ CACHES = {
 }
 
 RATELIMIT_FAIL_OPEN = False
+
+#celery
+CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6380/0')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6380/0')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+CELERY_BEAT_SCHEDULE = {
+    'release-expired-reservations': {
+        'task': 'apps.reservations.tasks.release_expired_seats_locks',
+        'schedule': timedelta(minutes=1),
+    },
+}
+

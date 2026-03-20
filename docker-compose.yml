@@ -57,6 +57,30 @@ services:
     restart: always
     command: redis-server --bind 0.0.0.0 --appendonly yes
 
+  celery:
+    build: .
+    command: celery -A config worker --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - cinereserve-net
+    restart: always
+
+  celery_beat:
+    build: .
+    command: celery -A config beat --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - cinereserve-net
+    restart: always
+
 volumes:
   cinereserve_pg_data:
   cinereserve_redis_data:

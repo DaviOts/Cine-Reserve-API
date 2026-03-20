@@ -8,6 +8,7 @@ from apps.reservations.services import ReservationService
 from apps.seats.models import Seat, SeatStatus
 
 from .models import Ticket
+from .tasks import send_ticket_email
 
 redis_client = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
 
@@ -53,8 +54,18 @@ class TicketService:
                 session=session,
                 seat=seat,
             )
-            
+                   
+
             #realease if and only if transaction is committed in my bd
-            transaction.on_commit(lambda: ReservationService.release_seat_lock(seat_id, user.id))
+            transaction.on_commit(lambda s=seat,u=user: ReservationService.release_seat_lock(s.id, u.id))
+
+            #send email
+            transaction.on_commit(
+                lambda t=ticket,u=user:send_ticket_email.delay(
+                    email=u.email,
+                    ticket_id=str(t.id),
+                    username=u.username,
+                )
+            )  
             
             return ticket
