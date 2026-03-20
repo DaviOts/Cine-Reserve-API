@@ -11,7 +11,7 @@ from .serializers import MovieSerializer, SessionSerializer
 
 #ModelViewSet do to get all crud operations
 class MovieViewSet(viewsets.ModelViewSet):
-    queryset = Movie.objects.all()
+    queryset = Movie.objects.all().order_by('id')
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -27,7 +27,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     
     @method_decorator(ratelimit(key='ip', rate='60/m', method='GET', block=True))
     def retrieve(self, request, *args, **kwargs):
-        cache_key = f"movies:retrieve:{request.user.id}"
+        cache_key = f"movies:retrieve:{kwargs['pk']}"
         cached = cache.get(cache_key)
         if cached:
             return Response(cached)
@@ -37,7 +37,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 
 
 class SessionViewSet(viewsets.ModelViewSet):
-    queryset = Session.objects.all()
+    queryset = Session.objects.all().order_by('id')
     serializer_class = SessionSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -50,7 +50,7 @@ class SessionViewSet(viewsets.ModelViewSet):
 
     @method_decorator(ratelimit(key='ip', rate='60/m', method='GET', block=True))
     def list(self, request, *args, **kwargs):
-        cache_key = f"sessions:list:{request.user.id}"
+        cache_key = f"sessions:list:{request.get_full_path()}"
         cached = cache.get(cache_key)
         if cached:
             return Response(cached)

@@ -8,6 +8,7 @@ from rest_framework.test import APIClient
 from apps.movies.models import Movie, Session
 from apps.seats.models import Seat, SeatStatus
 from apps.users.models import User
+from django.core.cache import cache
 
 
 #client
@@ -113,3 +114,9 @@ def seat_in_past_session(db, past_session):
         number=1,
         status=SeatStatus.AVAILABLE,
     )
+
+@pytest.fixture(autouse=True)
+def reset_cache():
+    cache.clear()
+    yield
+    cache.clear()
