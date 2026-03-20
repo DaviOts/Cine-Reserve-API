@@ -18,6 +18,5 @@ class TestSeatSerializer:
         assert data['session'] == seat.session.id
  
     def test_default_status_is_available(self, session):
-        seat = Seat.objects.create(session=session, row='Z', number=99)
-        serializer = SeatSerializer(seat)
+        serializer = SeatSerializer(Seat.objects.filter(session=session).first())
         assert serializer.data['status'] == SeatStatus.AVAILABLE
