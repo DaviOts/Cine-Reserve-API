@@ -166,3 +166,5 @@ CACHES = {
         "LOCATION": REDIS_URL,
     }
 }
+
+RATELIMIT_FAIL_OPEN = False

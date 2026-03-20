@@ -7,8 +7,10 @@ from rest_framework.views import APIView
 from .models import Ticket
 from .serializers import TicketSerializer
 from .services import TicketService
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 
-
+@method_decorator(ratelimit(key='ip', rate='5/minute', method='POST', block=True), name='post')
 class TicketViewSet(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -42,6 +44,7 @@ class TicketViewSet(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@method_decorator(ratelimit(key='ip', rate='60/minute', method='GET', block=True), name='list')
 class MyTicketsListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TicketSerializer

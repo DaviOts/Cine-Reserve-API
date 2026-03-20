@@ -5,9 +5,11 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .models import Movie, Session
 from .serializers import MovieSerializer, SessionSerializer
-
+from django_ratelimit.decorators import ratelimit
 
 #ModelViewSet do to get all crud operations
+@method_decorator(ratelimit(key='ip', rate='60/m', method='GET', block=True), name='list')
+@method_decorator(ratelimit(key='ip', rate='60/m', method='GET', block=True), name='retrieve')
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
@@ -21,6 +23,8 @@ class MovieViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 
+@method_decorator(ratelimit(key='ip', rate='60/m', method='GET', block=True), name='list')
+@method_decorator(ratelimit(key='ip', rate='60/m', method='GET', block=True), name='retrieve')
 class SessionViewSet(viewsets.ModelViewSet):
     queryset = Session.objects.all()
     serializer_class = SessionSerializer

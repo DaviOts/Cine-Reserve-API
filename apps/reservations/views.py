@@ -6,11 +6,13 @@ from rest_framework.views import APIView
 
 from apps.reservations.services import ReservationService
 from apps.seats.models import Seat, SeatStatus
-
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 
 class ReserveSeatView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @method_decorator(ratelimit(key='ip', rate='10/m', method='POST', block=True))
     def post(self, request, session_id, seat_id):
         seat = get_object_or_404(Seat, id=seat_id)
 
@@ -26,6 +28,7 @@ class ReserveSeatView(APIView):
 
         return Response({"message": "Seat reserved"}, status=status.HTTP_200_OK)
 
+    @method_decorator(ratelimit(key='ip', rate='10/m', method='DELETE', block=True))
     def delete(self, request, session_id, seat_id):
         realesed = ReservationService.release_seat_lock(seat_id, request.user.id)
 

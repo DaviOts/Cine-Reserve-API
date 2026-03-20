@@ -5,9 +5,12 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Seat, SeatStatus
 from .serializers import SeatSerializer
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 
 redis_client = redis.Redis.from_url(settings.REDIS_URL)
 
+@method_decorator(ratelimit(key='ip', rate='30/m', method='GET', block=True), name='get')
 class SeatViewSet(generics.ListAPIView):
     
     serializer_class = SeatSerializer
