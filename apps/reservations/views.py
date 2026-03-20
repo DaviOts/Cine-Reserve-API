@@ -26,6 +26,9 @@ class ReserveSeatView(APIView):
             ttl = ReservationService.get_lock_ttl(seat_id)
 
             return Response({"error": "Seat is being processed", "ttl": ttl}, status=status.HTTP_409_CONFLICT)
+        
+        seat.status = SeatStatus.RESERVED
+        seat.save()
 
         return Response({"message": "Seat reserved"}, status=status.HTTP_200_OK)
 
@@ -34,9 +37,13 @@ class ReserveSeatView(APIView):
         realesed = ReservationService.release_seat_lock(seat_id, request.user.id)
 
         if not realesed:
-            return Response({"error": "Failed to release seat lock"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"message": "Seat lock released"}, status=status.HTTP_200_OK)
+            return Response({"error": "Failed to release seat lock"}, status=status.HTTP_400_BAD_REQUEST)     
+        
+        seat = get_object_or_404(Seat, id=seat_id)
+        seat.status = SeatStatus.AVAILABLE
+        seat.save()
+        return Response({"message": "Seat lock released"}, status=status.HTTP_200_OK)
+
         
 
         
