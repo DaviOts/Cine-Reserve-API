@@ -179,7 +179,7 @@ CELERY_TASK_SERIALIZER = 'json'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CELERY_BEAT_SCHEDULE = {
     'release-expired-reservations': {
-        'task': 'apps.reservations.tasks.release_expired_seats_locks',
+        'task': 'apps.reservations.tasks.release_expired_seat_locks',
         'schedule': timedelta(minutes=1),
     },
 }
