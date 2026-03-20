@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -6,8 +8,7 @@ from rest_framework.views import APIView
 
 from apps.reservations.services import ReservationService
 from apps.seats.models import Seat, SeatStatus
-from django.utils.decorators import method_decorator
-from django_ratelimit.decorators import ratelimit
+
 
 class ReserveSeatView(APIView):
     permission_classes = [IsAuthenticated]

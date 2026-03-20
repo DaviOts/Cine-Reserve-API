@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import generics, serializers, status
 from rest_framework.permissions import IsAuthenticated
@@ -7,8 +9,7 @@ from rest_framework.views import APIView
 from .models import Ticket
 from .serializers import TicketSerializer
 from .services import TicketService
-from django.utils.decorators import method_decorator
-from django_ratelimit.decorators import ratelimit
+
 
 @method_decorator(ratelimit(key='ip', rate='5/minute', method='POST', block=True), name='post')
 class TicketViewSet(APIView):

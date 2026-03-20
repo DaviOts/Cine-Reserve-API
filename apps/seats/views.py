@@ -1,12 +1,12 @@
 import redis
 from django.conf import settings
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Seat, SeatStatus
 from .serializers import SeatSerializer
-from django.utils.decorators import method_decorator
-from django_ratelimit.decorators import ratelimit
 
 redis_client = redis.Redis.from_url(settings.REDIS_URL)
 

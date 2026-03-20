@@ -1,13 +1,12 @@
+from django.core.cache import cache
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django_ratelimit.decorators import ratelimit
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.core.cache import cache
 from rest_framework.response import Response
 
 from .models import Movie, Session
 from .serializers import MovieSerializer, SessionSerializer
-from django_ratelimit.decorators import ratelimit
 
 
 #ModelViewSet do to get all crud operations
