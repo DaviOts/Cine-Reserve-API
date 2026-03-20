@@ -6,4 +6,4 @@ class MoviesConfig(AppConfig):
     name = 'apps.movies'
 
     def ready(self):
-        pass
+        import apps.movies.signals  # noqa: F401
