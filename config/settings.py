@@ -152,7 +152,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
     #ratelimit
-    'EXCEPTION_HANDLER': 'apps.utils.exceptions.custom_exception_handler',
+    'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
 }
 
 SIMPLE_JWT = {

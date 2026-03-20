@@ -42,8 +42,7 @@ def user(db):
  
 @pytest.fixture
 def rival_user(db):
-    return baker.make(
-        User,
+    return User.objects.create_user(
         username='idkuser',
         email='idkuser@test.com',
         password='strongpass123',

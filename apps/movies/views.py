@@ -60,7 +60,7 @@ class SessionViewSet(viewsets.ModelViewSet):
     
     @method_decorator(ratelimit(key='ip', rate='60/m', method='GET', block=True))
     def retrieve(self, request, *args, **kwargs):
-        cache_key = f"sessions:retrieve:{request.user.id}"
+        cache_key = f"sessions:retrieve:{kwargs['pk']}"
         cached = cache.get(cache_key)
         if cached:
             return Response(cached)
