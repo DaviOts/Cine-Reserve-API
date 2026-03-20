@@ -6,4 +6,4 @@ class MoviesConfig(AppConfig):
     name = 'apps.movies'
 
     def ready(self):
-        import apps.movies.signals
+        pass
